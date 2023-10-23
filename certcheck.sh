@@ -3,7 +3,10 @@
 # HELP            #
 ###################
 
-args=("$@")
+#args=("$@")
+#function echo_params {
+#    echo "$args"
+#}
 
 function license {
     echo "This script wtiten by Sergei \"feeler\" Valuev under GPL 3.0 license."
@@ -25,10 +28,6 @@ function test2_help {
     echo -e "\nTest2 help to show you"
 }
 
-function echo_params {
-    echo "$args"
-}
-
 ###################
 # MAIN SCRIPT     #
 ###################
@@ -38,7 +37,6 @@ case "$1" in
     "help" | ""      ) full_help && exit 1;;
     "license"        ) license;;
     "local"          ) local "$@";;
-    "test2"          ) test2 "$@";;
     *) invalid_param && exit 1;;
 esac
 }
