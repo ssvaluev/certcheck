@@ -3,10 +3,6 @@
 # HELP            #
 ###################
 
-#args=("$@")
-#function echo_params {
-#    echo "$args"
-#}
 
 function license {
     echo "This script wtiten by Sergei \"feeler\" Valuev under GPL 3.0 license."
@@ -45,7 +41,7 @@ function local {
 shift
 case "$1" in
     "help" | ""     ) local_help && exit 1;;
-    "search"         ) local_search "$@";;
+    "search"       ) local_search "$@";;
 #    *) local_search;;
 esac
 }
@@ -56,14 +52,12 @@ esac
 
 function local_search {
     shift
-    for var in $(find $1 -type f -name "*.crt")
-    do
-        openssl x509  -noout -dates -dateopt iso_8601 -subject -in "$var" |\
-        tr '\n' '\t'; echo -e "$var" |\
-        awk -F'\t' 'BEGIN {OFS = FS} {print $2 $1 $3 $4}' |\
-        sort -dr
-    done
+    find "$1" -type f -name "*.crt" -exec sh -c '\
+    openssl x509 -noout -dates -dateopt iso_8601 -subject -in "$1" |\
+    tr "\n" "\t"; echo -e "$1"' sh {} \; |\
+    sort -dr | awk -F'\t' '{print $1 "\t" $2 "\t" $4 "\t" $3}'
 }
+
 
 function invalid_param {
     echo -e "Invalid parameter.\nUse \"help\" as a script parameter to know how to use it."
