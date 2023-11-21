@@ -1,3 +1,4 @@
 ./aws-access-key
+check_from_DB.sh
 test/
 *.crt
