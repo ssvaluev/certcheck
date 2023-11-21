@@ -1,3 +1,5 @@
-./aws-access-key
+aws-access-key
+check_from_DB.sh
+.gitignore-public
 test/
 *.crt

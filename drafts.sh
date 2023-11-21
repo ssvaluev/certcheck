@@ -21,3 +21,16 @@ function local_search {
 #        awk 'BEGIN {FS="\t"; OFS="\t"} {print $2 $1 $4 $3}' |\
 #        sort -dr
 #    done
+
+
+
+function domentor_check7 {
+    curl -s GET "https://api.domentor.rtty.in/certs?expire_period=7" |\
+    jq -r '.items[] | "\(.type) \(.days_to_expire) \(.name)"' |\
+    #TYPE_POSITION var comes from here ^^^
+    awk '{ printf "%-5s %-25s %-15s\n", $1, $2, $3 }' |\
+    sed 's/8/Technical/g; s/11/Zeydoo/g; s/6/NativeAds/g' |\
+    sort -k1,1nr
+}
+
+

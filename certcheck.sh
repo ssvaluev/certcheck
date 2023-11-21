@@ -1,6 +1,6 @@
 #!/usr/bin/env -S bash
 # shellcheck source=/dev/null
-source ./domentorcheck.sh
+source ./check_from_DB.sh
 
 ###################
 # HELP            #
@@ -10,9 +10,9 @@ function license {
     echo "This script wtiten by Sergei \"feeler\" Valuev under GPL 3.0 license."
 }
 
-function full_help {
+ function full_help {
     echo "ERROR: You need to pass a sub-command (e.g., certcheck.sh SUB-COMMAND)"
-    localcheck_help;
+    #localcheck_help;
     echo -e "\nUse \"license\" to see script's license"
 }
 
@@ -30,7 +30,7 @@ main() {
 case "$1" in
     "help" | ""      ) full_help && exit 1;;
     "license"        ) license;;
-    "check"          ) local "$@";;
+    "check"          ) check "$@";;
     *) invalid_param && exit 1;;
 esac
 }
@@ -40,8 +40,11 @@ shift
 case "$1" in
     "help" | ""     ) local_help && exit 1;;
     "local"         ) local_check "$@";;
-    "remote"        ) 
-#    *) local_search;;
+    "db7"           ) domentor_check7;;
+    "db2"           ) domentor_check2;;
+    "db_exp"        ) domentor_check_exp;;
+#    "remote"        ) 
+    *) invalid_param && exit 1;;
 esac
 }
 
