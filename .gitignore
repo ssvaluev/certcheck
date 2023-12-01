@@ -1,4 +1,5 @@
 aws-access-key
+drafts.sh
 .gitignore-public
 test/
 *.crt
