@@ -1,4 +1,5 @@
 ./aws-access-key
+drafts.sh
 check_from_DB.sh
 .gitignore-public
 test/
