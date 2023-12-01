@@ -1,0 +1,3 @@
+[submodule "check_from_DB"]
+	path = check_from_DB
+	url = git@gitlab.rtty.in:Valuev/check_from_db.git
