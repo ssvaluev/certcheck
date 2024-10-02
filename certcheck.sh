@@ -79,7 +79,7 @@ A_records=$(aws route53 list-resource-record-sets \
     --hosted-zone-id "$zone_id" \
     --output json | \
     jq -c '.ResourceRecordSets[] | select(.Type == "A") | "\(.ResourceRecords[0].Value) \(.Name)"' | \
-    tr -d '"' | awk {'print $2 "\t" $1'} | uniq)
+    tr -d '"' | awk {'print $2'} | uniq)
 }
 
 
@@ -89,14 +89,14 @@ if [ "$items_type" == "str_params" ]; then
     items=( "$@" )
 elif [ "$items_type" == "array" ]; then
     list_subdomains "$@"
-    items=("${A_records[@]}")
+    items=("${A_records[@]}") 
 else
     echo "Error"
 fi
 
 for server_name in ${items[@]}; do
     port="443"
-    echo -n unlock | openssl s_client -servername "$server_name" -connect "$server_name":"$port" 2>&1 |\
+    echo -n unlock | timeout 1 openssl s_client -servername "$server_name" -connect "$server_name":"$port" 2>&1 |\
     openssl x509 -noout -dates -dateopt iso_8601 -subject |\
     grep -E 'subject|notBefore|notAfter' |\
     tr "\n" "\t"; echo -e "$server_name" |\
