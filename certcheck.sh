@@ -79,7 +79,9 @@ A_records=$(aws route53 list-resource-record-sets \
     --hosted-zone-id "$zone_id" \
     --output json | \
     jq -c '.ResourceRecordSets[] | select(.Type == "A") | "\(.ResourceRecords[0].Value) \(.Name)"' | \
-    tr -d '"' | awk {'print $2'} | uniq)
+    tr -d '"' | awk {'print $2'} | \
+    #replace with awk {'print $2 "\t" $1'} to get IPs
+    grep -vE "^i.*" | uniq) #eliminate iDRAC A-records
 }
 
 
