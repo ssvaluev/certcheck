@@ -1,7 +1,7 @@
 #!/usr/bin/env -S bash
 # shellcheck source=/dev/null
 source ./check_from_DB/check_from_DB.sh
-declare -Ag A_records
+#declare -Ag A_records
 ###################
 # HELP            #
 ###################
@@ -98,7 +98,7 @@ fi
 
 for server_name in ${items[@]}; do
     port="443"
-    echo -n unlock | timeout 1 openssl s_client -servername "$server_name" -connect "$server_name":"$port" 2>&1 |\
+    echo -n unlock | timeout 2 openssl s_client -servername "$server_name" -connect "$server_name":"$port" 2>&1 |\
     openssl x509 -noout -dates -dateopt iso_8601 -subject |\
     grep -E 'subject|notBefore|notAfter' |\
     tr "\n" "\t"; echo -e "$server_name" |\
